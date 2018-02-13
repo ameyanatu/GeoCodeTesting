@@ -1,0 +1,1275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20180103 21:45:39.610" generator="Robot 3.0.2 (Python 2.7.14 on win32)">
+<suite source="C:\Users\user\PycharmProjects\GeoCodeTesting - API\tests\GeoCodeTesting.robot" id="s1" name="GeoCodeTesting">
+<test id="s1-t1" name="Provide Location Data and Verify and Correct Location Through API">
+<kw name="Get CSV Data" library="LocationDataManager">
+<arguments>
+<arg>${FILEPATH}</arg>
+</arguments>
+<assign>
+<var>${LISTOFLOCATIONDATA}</var>
+</assign>
+<kw name="Read Csv File" library="ReadCSVFileData">
+<arguments>
+<arg>${FILEPATH}</arg>
+</arguments>
+<assign>
+<var>${DATA}</var>
+</assign>
+<msg timestamp="20180103 21:45:40.205" level="INFO">${DATA} = [['-73.985506', '40.757929', 'NEW YORK'], ['-121.968474', '37.352309', 'SANTA CLARA'], ['-87.624333', '41.879535', 'CHICAGO'], ['-96.797111', '32.781078', 'DALLAS'], ['-71.05682', '42.35888', 'BOSTON'...</msg>
+<status status="PASS" endtime="20180103 21:45:40.205" starttime="20180103 21:45:40.205"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${DATA}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:40.205" level="INFO">[['-73.985506', '40.757929', 'NEW YORK'], ['-121.968474', '37.352309', 'SANTA CLARA'], ['-87.624333', '41.879535', 'CHICAGO'], ['-96.797111', '32.781078', 'DALLAS'], ['-71.05682', '42.35888', 'BOSTON']]</msg>
+<status status="PASS" endtime="20180103 21:45:40.205" starttime="20180103 21:45:40.205"></status>
+</kw>
+<msg timestamp="20180103 21:45:40.205" level="INFO">${LISTOFLOCATIONDATA} = [['-73.985506', '40.757929', 'NEW YORK'], ['-121.968474', '37.352309', 'SANTA CLARA'], ['-87.624333', '41.879535', 'CHICAGO'], ['-96.797111', '32.781078', 'DALLAS'], ['-71.05682', '42.35888', 'BOSTON'...</msg>
+<status status="PASS" endtime="20180103 21:45:40.205" starttime="20180103 21:45:40.190"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${LISTOFLOCATIONDATA}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:40.205" level="INFO">[['-73.985506', '40.757929', 'NEW YORK'], ['-121.968474', '37.352309', 'SANTA CLARA'], ['-87.624333', '41.879535', 'CHICAGO'], ['-96.797111', '32.781078', 'DALLAS'], ['-71.05682', '42.35888', 'BOSTON']]</msg>
+<status status="PASS" endtime="20180103 21:45:40.205" starttime="20180103 21:45:40.205"></status>
+</kw>
+<kw name="Enter multiple location data and validate result" library="GeoCodeApp">
+<arguments>
+<arg>${LISTOFLOCATIONDATA}</arg>
+</arguments>
+<kw type="for" name="${Locationdata} IN [ @{LISTOFLOCATIONDATA} ]">
+<kw type="foritem" name="${Locationdata} = ['-73.985506', '40.757929', 'NEW YORK']">
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<arguments>
+<arg>Page.Enter location data and send location data and get response and validate</arg>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Enter location data and send location data and get response and validate" library="Page">
+<arguments>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode</arg>
+</arguments>
+<msg timestamp="20180103 21:45:40.205" level="INFO">Creating Session using : alias=my_geocoding_session, url=https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20180103 21:45:40.205" level="DEBUG">Creating session: my_geocoding_session</msg>
+<msg timestamp="20180103 21:45:40.205" level="DEBUG">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:40.205" starttime="20180103 21:45:40.205"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>?location=${Locationdata[0]}%2C${Locationdata[1]}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180103 21:45:40.205" level="DEBUG">Starting new HTTPS connection (1): sampleserver1.arcgisonline.com</msg>
+<msg timestamp="20180103 21:45:50.952" level="DEBUG">https://sampleserver1.arcgisonline.com:443 "POST /ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode/?location=-73.985506%2C40.757929 HTTP/1.1" 200 2071</msg>
+<msg timestamp="20180103 21:45:50.952" level="DEBUG">post response: &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators"&gt;Locators&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer"&gt;ESRI_Geocode_USA (GeocodeServer)&lt;/a&gt; &lt;/td&gt;
+&lt;td align="right" id="help"&gt;
+&lt;a href="http://sampleserver1.arcgisonline.com/ArcGIS/SDK/REST/servicesdirectory.html" target="_blank"&gt;Help&lt;/a&gt; | &lt;a href="?f=help" target="_blank"&gt;API Reference&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class='restHeader'&gt;
+&lt;h2&gt;Reverse Geocode: Locators/ESRI_Geocode_USA&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class='restBody'&gt;
+&lt;form&gt;
+&lt;table style="border:1px solid #000000;"&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;&lt;b&gt;Reverse Geocode: &lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="location" value="-73.985506,40.757929" size="50" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Search Distance:&lt;/td&gt;
+&lt;td&gt;
+&lt;input type="text" name="distance" value="0" size="5" /&gt;
+&amp;nbsp;Meters
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spatial Reference &lt;/td&gt;
+&lt;td&gt;&lt;input type="text" name="outSR" size="50" value="" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Format: &lt;/td&gt;
+&lt;td&gt;
+&lt;select name="f"&gt;
+&lt;option value="html" selected='true'&gt;HTML&lt;/option&gt;
+&lt;option value="kmz"&gt;KMZ&lt;/option&gt;
+&lt;option value="pjson"&gt;JSON&lt;/option&gt;
+&lt;/select&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;
+&lt;input type="submit" value="Find" /&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: 161 W 45TH ST&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: NEW YORK&lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: NY&lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: 10036&lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -73.9854218199999&lt;br/&gt;
+Y: 40.75789366&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</msg>
+<msg timestamp="20180103 21:45:50.952" level="INFO">Post Request using : alias=my_geocoding_session, uri=?location=-73.985506%2C40.757929, data=&lt;empty&gt;, headers=None, files=None, allow_redirects=True </msg>
+<msg timestamp="20180103 21:45:50.952" level="INFO">c:\python27\lib\site-packages\urllib3\connectionpool.py:858: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)</msg>
+<msg timestamp="20180103 21:45:50.968" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:50.968" starttime="20180103 21:45:40.205"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:50.968" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:50.968" starttime="20180103 21:45:50.968"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180103 21:45:50.968" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:50.968" starttime="20180103 21:45:50.968"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20180103 21:45:50.968" level="INFO">${json} = &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' ty...</msg>
+<status status="PASS" endtime="20180103 21:45:50.968" starttime="20180103 21:45:50.968"></status>
+</kw>
+<kw name="Should Contain One Of These Substrings" library="LocationDataManager">
+<arguments>
+<arg>${json}</arg>
+<arg>${Locationdata[2]}</arg>
+</arguments>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>substrings</arg>
+<arg>${substrings}</arg>
+<arg>value</arg>
+<arg>${value}</arg>
+</arguments>
+<assign>
+<var>${ns}</var>
+</assign>
+<msg timestamp="20180103 21:45:50.968" level="INFO">${ns} = {u'substrings': ['NEW YORK'], u'value': '&lt;html&gt;\r\n&lt;head&gt;\r\n&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;\r\n  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;\r\n  &lt;link href=\'/Arc...</msg>
+<status status="PASS" endtime="20180103 21:45:50.968" starttime="20180103 21:45:50.968"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>any(substring in value for substring in substrings)</arg>
+<arg>namespace=${ns}</arg>
+</arguments>
+<assign>
+<var>${contains}</var>
+</assign>
+<msg timestamp="20180103 21:45:50.968" level="INFO">${contains} = True</msg>
+<status status="PASS" endtime="20180103 21:45:50.968" starttime="20180103 21:45:50.968"></status>
+</kw>
+<kw name="Run Keyword Unless" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is false.</doc>
+<arguments>
+<arg>${contains}</arg>
+<arg>Fail</arg>
+<arg>'${value}' does not contain one of: ${substrings}</arg>
+</arguments>
+<status status="PASS" endtime="20180103 21:45:50.984" starttime="20180103 21:45:50.984"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:50.984" starttime="20180103 21:45:50.968"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:50.984" starttime="20180103 21:45:40.205"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:50.984" starttime="20180103 21:45:40.205"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:50.984" starttime="20180103 21:45:40.205"></status>
+</kw>
+<kw type="foritem" name="${Locationdata} = ['-121.968474', '37.352309', 'SANTA CLARA']">
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<arguments>
+<arg>Page.Enter location data and send location data and get response and validate</arg>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Enter location data and send location data and get response and validate" library="Page">
+<arguments>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode</arg>
+</arguments>
+<msg timestamp="20180103 21:45:50.984" level="INFO">Creating Session using : alias=my_geocoding_session, url=https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20180103 21:45:50.984" level="DEBUG">Creating session: my_geocoding_session</msg>
+<msg timestamp="20180103 21:45:50.984" level="DEBUG">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:50.984" starttime="20180103 21:45:50.984"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>?location=${Locationdata[0]}%2C${Locationdata[1]}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180103 21:45:50.984" level="DEBUG">Starting new HTTPS connection (1): sampleserver1.arcgisonline.com</msg>
+<msg timestamp="20180103 21:45:52.880" level="DEBUG">https://sampleserver1.arcgisonline.com:443 "POST /ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode/?location=-121.968474%2C37.352309 HTTP/1.1" 200 2047</msg>
+<msg timestamp="20180103 21:45:52.895" level="DEBUG">post response: &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators"&gt;Locators&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer"&gt;ESRI_Geocode_USA (GeocodeServer)&lt;/a&gt; &lt;/td&gt;
+&lt;td align="right" id="help"&gt;
+&lt;a href="http://sampleserver1.arcgisonline.com/ArcGIS/SDK/REST/servicesdirectory.html" target="_blank"&gt;Help&lt;/a&gt; | &lt;a href="?f=help" target="_blank"&gt;API Reference&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class='restHeader'&gt;
+&lt;h2&gt;Reverse Geocode: Locators/ESRI_Geocode_USA&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class='restBody'&gt;
+&lt;form&gt;
+&lt;table style="border:1px solid #000000;"&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;&lt;b&gt;Reverse Geocode: &lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="location" value="-121.968474,37.352309" size="50" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Search Distance:&lt;/td&gt;
+&lt;td&gt;
+&lt;input type="text" name="distance" value="0" size="5" /&gt;
+&amp;nbsp;Meters
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spatial Reference &lt;/td&gt;
+&lt;td&gt;&lt;input type="text" name="outSR" size="50" value="" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Format: &lt;/td&gt;
+&lt;td&gt;
+&lt;select name="f"&gt;
+&lt;option value="html" selected='true'&gt;HTML&lt;/option&gt;
+&lt;option value="kmz"&gt;KMZ&lt;/option&gt;
+&lt;option value="pjson"&gt;JSON&lt;/option&gt;
+&lt;/select&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;
+&lt;input type="submit" value="Find" /&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: STHY 82&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -121.96845924&lt;br/&gt;
+Y: 37.35230912&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</msg>
+<msg timestamp="20180103 21:45:52.895" level="INFO">Post Request using : alias=my_geocoding_session, uri=?location=-121.968474%2C37.352309, data=&lt;empty&gt;, headers=None, files=None, allow_redirects=True </msg>
+<msg timestamp="20180103 21:45:52.895" level="INFO">c:\python27\lib\site-packages\urllib3\connectionpool.py:858: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)</msg>
+<msg timestamp="20180103 21:45:52.895" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:52.895" starttime="20180103 21:45:50.984"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:52.895" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:52.895" starttime="20180103 21:45:52.895"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180103 21:45:52.895" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:52.895" starttime="20180103 21:45:52.895"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20180103 21:45:52.895" level="INFO">${json} = &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' ty...</msg>
+<status status="PASS" endtime="20180103 21:45:52.895" starttime="20180103 21:45:52.895"></status>
+</kw>
+<kw name="Should Contain One Of These Substrings" library="LocationDataManager">
+<arguments>
+<arg>${json}</arg>
+<arg>${Locationdata[2]}</arg>
+</arguments>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>substrings</arg>
+<arg>${substrings}</arg>
+<arg>value</arg>
+<arg>${value}</arg>
+</arguments>
+<assign>
+<var>${ns}</var>
+</assign>
+<msg timestamp="20180103 21:45:52.911" level="INFO">${ns} = {u'substrings': ['SANTA CLARA'], u'value': '&lt;html&gt;\r\n&lt;head&gt;\r\n&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;\r\n  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;\r\n  &lt;link href=\'/...</msg>
+<status status="PASS" endtime="20180103 21:45:52.911" starttime="20180103 21:45:52.895"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>any(substring in value for substring in substrings)</arg>
+<arg>namespace=${ns}</arg>
+</arguments>
+<assign>
+<var>${contains}</var>
+</assign>
+<msg timestamp="20180103 21:45:52.911" level="INFO">${contains} = False</msg>
+<status status="PASS" endtime="20180103 21:45:52.911" starttime="20180103 21:45:52.911"></status>
+</kw>
+<kw name="Run Keyword Unless" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is false.</doc>
+<arguments>
+<arg>${contains}</arg>
+<arg>Fail</arg>
+<arg>'${value}' does not contain one of: ${substrings}</arg>
+</arguments>
+<kw name="Fail" library="BuiltIn">
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<arguments>
+<arg>'${value}' does not contain one of: ${substrings}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:52.911" level="FAIL">'&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators"&gt;Locators&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer"&gt;ESRI_Geocode_USA (GeocodeServer)&lt;/a&gt; &lt;/td&gt;
+&lt;td align="right" id="help"&gt;
+&lt;a href="http://sampleserver1.arcgisonline.com/ArcGIS/SDK/REST/servicesdirectory.html" target="_blank"&gt;Help&lt;/a&gt; | &lt;a href="?f=help" target="_blank"&gt;API Reference&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class='restHeader'&gt;
+&lt;h2&gt;Reverse Geocode: Locators/ESRI_Geocode_USA&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class='restBody'&gt;
+&lt;form&gt;
+&lt;table style="border:1px solid #000000;"&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;&lt;b&gt;Reverse Geocode: &lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="location" value="-121.968474,37.352309" size="50" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Search Distance:&lt;/td&gt;
+&lt;td&gt;
+&lt;input type="text" name="distance" value="0" size="5" /&gt;
+&amp;nbsp;Meters
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spatial Reference &lt;/td&gt;
+&lt;td&gt;&lt;input type="text" name="outSR" size="50" value="" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Format: &lt;/td&gt;
+&lt;td&gt;
+&lt;select name="f"&gt;
+&lt;option value="html" selected='true'&gt;HTML&lt;/option&gt;
+&lt;option value="kmz"&gt;KMZ&lt;/option&gt;
+&lt;option value="pjson"&gt;JSON&lt;/option&gt;
+&lt;/select&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;
+&lt;input type="submit" value="Find" /&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: STHY 82&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -121.96845924&lt;br/&gt;
+Y: 37.35230912&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+' does not contain one of: ['SANTA CLARA']</msg>
+<msg timestamp="20180103 21:45:52.911" level="DEBUG">Traceback (most recent call last):
+  None</msg>
+<status status="FAIL" endtime="20180103 21:45:52.911" starttime="20180103 21:45:52.911"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:52.911" starttime="20180103 21:45:52.911"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:52.911" starttime="20180103 21:45:52.895"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:52.911" starttime="20180103 21:45:50.984"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:52.911" starttime="20180103 21:45:50.984"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:52.911" starttime="20180103 21:45:50.984"></status>
+</kw>
+<kw type="foritem" name="${Locationdata} = ['-87.624333', '41.879535', 'CHICAGO']">
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<arguments>
+<arg>Page.Enter location data and send location data and get response and validate</arg>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Enter location data and send location data and get response and validate" library="Page">
+<arguments>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode</arg>
+</arguments>
+<msg timestamp="20180103 21:45:52.926" level="INFO">Creating Session using : alias=my_geocoding_session, url=https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20180103 21:45:52.926" level="DEBUG">Creating session: my_geocoding_session</msg>
+<msg timestamp="20180103 21:45:52.926" level="DEBUG">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:52.926" starttime="20180103 21:45:52.911"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>?location=${Locationdata[0]}%2C${Locationdata[1]}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180103 21:45:52.926" level="DEBUG">Starting new HTTPS connection (1): sampleserver1.arcgisonline.com</msg>
+<msg timestamp="20180103 21:45:54.905" level="DEBUG">https://sampleserver1.arcgisonline.com:443 "POST /ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode/?location=-87.624333%2C41.879535 HTTP/1.1" 200 2051</msg>
+<msg timestamp="20180103 21:45:54.905" level="DEBUG">post response: &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators"&gt;Locators&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer"&gt;ESRI_Geocode_USA (GeocodeServer)&lt;/a&gt; &lt;/td&gt;
+&lt;td align="right" id="help"&gt;
+&lt;a href="http://sampleserver1.arcgisonline.com/ArcGIS/SDK/REST/servicesdirectory.html" target="_blank"&gt;Help&lt;/a&gt; | &lt;a href="?f=help" target="_blank"&gt;API Reference&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class='restHeader'&gt;
+&lt;h2&gt;Reverse Geocode: Locators/ESRI_Geocode_USA&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class='restBody'&gt;
+&lt;form&gt;
+&lt;table style="border:1px solid #000000;"&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;&lt;b&gt;Reverse Geocode: &lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="location" value="-87.624333,41.879535" size="50" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Search Distance:&lt;/td&gt;
+&lt;td&gt;
+&lt;input type="text" name="distance" value="0" size="5" /&gt;
+&amp;nbsp;Meters
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spatial Reference &lt;/td&gt;
+&lt;td&gt;&lt;input type="text" name="outSR" size="50" value="" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Format: &lt;/td&gt;
+&lt;td&gt;
+&lt;select name="f"&gt;
+&lt;option value="html" selected='true'&gt;HTML&lt;/option&gt;
+&lt;option value="kmz"&gt;KMZ&lt;/option&gt;
+&lt;option value="pjson"&gt;JSON&lt;/option&gt;
+&lt;/select&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;
+&lt;input type="submit" value="Find" /&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: ADAMS ST&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -87.62433549&lt;br/&gt;
+Y: 41.8795349100001&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</msg>
+<msg timestamp="20180103 21:45:54.905" level="INFO">Post Request using : alias=my_geocoding_session, uri=?location=-87.624333%2C41.879535, data=&lt;empty&gt;, headers=None, files=None, allow_redirects=True </msg>
+<msg timestamp="20180103 21:45:54.905" level="INFO">c:\python27\lib\site-packages\urllib3\connectionpool.py:858: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)</msg>
+<msg timestamp="20180103 21:45:54.905" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:54.905" starttime="20180103 21:45:52.926"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:54.905" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:54.905" starttime="20180103 21:45:54.905"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180103 21:45:54.905" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:54.905" starttime="20180103 21:45:54.905"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20180103 21:45:54.921" level="INFO">${json} = &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' ty...</msg>
+<status status="PASS" endtime="20180103 21:45:54.921" starttime="20180103 21:45:54.905"></status>
+</kw>
+<kw name="Should Contain One Of These Substrings" library="LocationDataManager">
+<arguments>
+<arg>${json}</arg>
+<arg>${Locationdata[2]}</arg>
+</arguments>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>substrings</arg>
+<arg>${substrings}</arg>
+<arg>value</arg>
+<arg>${value}</arg>
+</arguments>
+<assign>
+<var>${ns}</var>
+</assign>
+<msg timestamp="20180103 21:45:54.921" level="INFO">${ns} = {u'substrings': ['CHICAGO'], u'value': '&lt;html&gt;\r\n&lt;head&gt;\r\n&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;\r\n  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;\r\n  &lt;link href=\'/ArcG...</msg>
+<status status="PASS" endtime="20180103 21:45:54.921" starttime="20180103 21:45:54.921"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>any(substring in value for substring in substrings)</arg>
+<arg>namespace=${ns}</arg>
+</arguments>
+<assign>
+<var>${contains}</var>
+</assign>
+<msg timestamp="20180103 21:45:54.921" level="INFO">${contains} = False</msg>
+<status status="PASS" endtime="20180103 21:45:54.921" starttime="20180103 21:45:54.921"></status>
+</kw>
+<kw name="Run Keyword Unless" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is false.</doc>
+<arguments>
+<arg>${contains}</arg>
+<arg>Fail</arg>
+<arg>'${value}' does not contain one of: ${substrings}</arg>
+</arguments>
+<kw name="Fail" library="BuiltIn">
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<arguments>
+<arg>'${value}' does not contain one of: ${substrings}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:54.921" level="FAIL">'&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators"&gt;Locators&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer"&gt;ESRI_Geocode_USA (GeocodeServer)&lt;/a&gt; &lt;/td&gt;
+&lt;td align="right" id="help"&gt;
+&lt;a href="http://sampleserver1.arcgisonline.com/ArcGIS/SDK/REST/servicesdirectory.html" target="_blank"&gt;Help&lt;/a&gt; | &lt;a href="?f=help" target="_blank"&gt;API Reference&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class='restHeader'&gt;
+&lt;h2&gt;Reverse Geocode: Locators/ESRI_Geocode_USA&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class='restBody'&gt;
+&lt;form&gt;
+&lt;table style="border:1px solid #000000;"&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;&lt;b&gt;Reverse Geocode: &lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="location" value="-87.624333,41.879535" size="50" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Search Distance:&lt;/td&gt;
+&lt;td&gt;
+&lt;input type="text" name="distance" value="0" size="5" /&gt;
+&amp;nbsp;Meters
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spatial Reference &lt;/td&gt;
+&lt;td&gt;&lt;input type="text" name="outSR" size="50" value="" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Format: &lt;/td&gt;
+&lt;td&gt;
+&lt;select name="f"&gt;
+&lt;option value="html" selected='true'&gt;HTML&lt;/option&gt;
+&lt;option value="kmz"&gt;KMZ&lt;/option&gt;
+&lt;option value="pjson"&gt;JSON&lt;/option&gt;
+&lt;/select&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;
+&lt;input type="submit" value="Find" /&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: ADAMS ST&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -87.62433549&lt;br/&gt;
+Y: 41.8795349100001&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+' does not contain one of: ['CHICAGO']</msg>
+<msg timestamp="20180103 21:45:54.921" level="DEBUG">Traceback (most recent call last):
+  None</msg>
+<status status="FAIL" endtime="20180103 21:45:54.921" starttime="20180103 21:45:54.921"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:54.921" starttime="20180103 21:45:54.921"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:54.937" starttime="20180103 21:45:54.921"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:54.937" starttime="20180103 21:45:52.911"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:54.937" starttime="20180103 21:45:52.911"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:54.937" starttime="20180103 21:45:52.911"></status>
+</kw>
+<kw type="foritem" name="${Locationdata} = ['-96.797111', '32.781078', 'DALLAS']">
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<arguments>
+<arg>Page.Enter location data and send location data and get response and validate</arg>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Enter location data and send location data and get response and validate" library="Page">
+<arguments>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode</arg>
+</arguments>
+<msg timestamp="20180103 21:45:54.937" level="INFO">Creating Session using : alias=my_geocoding_session, url=https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20180103 21:45:54.937" level="DEBUG">Creating session: my_geocoding_session</msg>
+<msg timestamp="20180103 21:45:54.937" level="DEBUG">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:54.937" starttime="20180103 21:45:54.937"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>?location=${Locationdata[0]}%2C${Locationdata[1]}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180103 21:45:54.937" level="DEBUG">Starting new HTTPS connection (1): sampleserver1.arcgisonline.com</msg>
+<msg timestamp="20180103 21:45:57.182" level="DEBUG">https://sampleserver1.arcgisonline.com:443 "POST /ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode/?location=-96.797111%2C32.781078 HTTP/1.1" 200 2061</msg>
+<msg timestamp="20180103 21:45:57.197" level="DEBUG">post response: &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators"&gt;Locators&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer"&gt;ESRI_Geocode_USA (GeocodeServer)&lt;/a&gt; &lt;/td&gt;
+&lt;td align="right" id="help"&gt;
+&lt;a href="http://sampleserver1.arcgisonline.com/ArcGIS/SDK/REST/servicesdirectory.html" target="_blank"&gt;Help&lt;/a&gt; | &lt;a href="?f=help" target="_blank"&gt;API Reference&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class='restHeader'&gt;
+&lt;h2&gt;Reverse Geocode: Locators/ESRI_Geocode_USA&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class='restBody'&gt;
+&lt;form&gt;
+&lt;table style="border:1px solid #000000;"&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;&lt;b&gt;Reverse Geocode: &lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="location" value="-96.797111,32.781078" size="50" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Search Distance:&lt;/td&gt;
+&lt;td&gt;
+&lt;input type="text" name="distance" value="0" size="5" /&gt;
+&amp;nbsp;Meters
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spatial Reference &lt;/td&gt;
+&lt;td&gt;&lt;input type="text" name="outSR" size="50" value="" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Format: &lt;/td&gt;
+&lt;td&gt;
+&lt;select name="f"&gt;
+&lt;option value="html" selected='true'&gt;HTML&lt;/option&gt;
+&lt;option value="kmz"&gt;KMZ&lt;/option&gt;
+&lt;option value="pjson"&gt;JSON&lt;/option&gt;
+&lt;/select&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;
+&lt;input type="submit" value="Find" /&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: N ERVAY ST&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: DALLAS&lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: TX&lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: 75201&lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -96.79711811&lt;br/&gt;
+Y: 32.78110065&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</msg>
+<msg timestamp="20180103 21:45:57.197" level="INFO">Post Request using : alias=my_geocoding_session, uri=?location=-96.797111%2C32.781078, data=&lt;empty&gt;, headers=None, files=None, allow_redirects=True </msg>
+<msg timestamp="20180103 21:45:57.197" level="INFO">c:\python27\lib\site-packages\urllib3\connectionpool.py:858: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)</msg>
+<msg timestamp="20180103 21:45:57.197" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:57.197" starttime="20180103 21:45:54.937"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:57.197" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:57.197" starttime="20180103 21:45:57.197"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180103 21:45:57.197" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:57.197" starttime="20180103 21:45:57.197"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20180103 21:45:57.197" level="INFO">${json} = &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' ty...</msg>
+<status status="PASS" endtime="20180103 21:45:57.197" starttime="20180103 21:45:57.197"></status>
+</kw>
+<kw name="Should Contain One Of These Substrings" library="LocationDataManager">
+<arguments>
+<arg>${json}</arg>
+<arg>${Locationdata[2]}</arg>
+</arguments>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>substrings</arg>
+<arg>${substrings}</arg>
+<arg>value</arg>
+<arg>${value}</arg>
+</arguments>
+<assign>
+<var>${ns}</var>
+</assign>
+<msg timestamp="20180103 21:45:57.213" level="INFO">${ns} = {u'substrings': ['DALLAS'], u'value': '&lt;html&gt;\r\n&lt;head&gt;\r\n&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;\r\n  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;\r\n  &lt;link href=\'/ArcGI...</msg>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:57.197"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>any(substring in value for substring in substrings)</arg>
+<arg>namespace=${ns}</arg>
+</arguments>
+<assign>
+<var>${contains}</var>
+</assign>
+<msg timestamp="20180103 21:45:57.213" level="INFO">${contains} = True</msg>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:57.213"></status>
+</kw>
+<kw name="Run Keyword Unless" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is false.</doc>
+<arguments>
+<arg>${contains}</arg>
+<arg>Fail</arg>
+<arg>'${value}' does not contain one of: ${substrings}</arg>
+</arguments>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:57.213"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:57.197"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:54.937"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:54.937"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:54.937"></status>
+</kw>
+<kw type="foritem" name="${Locationdata} = ['-71.05682', '42.35888', 'BOSTON']">
+<kw name="Run Keyword And Continue On Failure" library="BuiltIn">
+<doc>Runs the keyword and continues execution even if a failure occurs.</doc>
+<arguments>
+<arg>Page.Enter location data and send location data and get response and validate</arg>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Enter location data and send location data and get response and validate" library="Page">
+<arguments>
+<arg>${Locationdata}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode</arg>
+</arguments>
+<msg timestamp="20180103 21:45:57.213" level="INFO">Creating Session using : alias=my_geocoding_session, url=https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20180103 21:45:57.213" level="DEBUG">Creating session: my_geocoding_session</msg>
+<msg timestamp="20180103 21:45:57.213" level="DEBUG">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:57.213" starttime="20180103 21:45:57.213"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>my_geocoding_session</arg>
+<arg>?location=${Locationdata[0]}%2C${Locationdata[1]}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180103 21:45:57.229" level="DEBUG">Starting new HTTPS connection (1): sampleserver1.arcgisonline.com</msg>
+<msg timestamp="20180103 21:45:59.178" level="DEBUG">https://sampleserver1.arcgisonline.com:443 "POST /ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode/?location=-71.05682%2C42.35888 HTTP/1.1" 200 2067</msg>
+<msg timestamp="20180103 21:45:59.194" level="DEBUG">post response: &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators"&gt;Locators&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer"&gt;ESRI_Geocode_USA (GeocodeServer)&lt;/a&gt; &lt;/td&gt;
+&lt;td align="right" id="help"&gt;
+&lt;a href="http://sampleserver1.arcgisonline.com/ArcGIS/SDK/REST/servicesdirectory.html" target="_blank"&gt;Help&lt;/a&gt; | &lt;a href="?f=help" target="_blank"&gt;API Reference&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class='restHeader'&gt;
+&lt;h2&gt;Reverse Geocode: Locators/ESRI_Geocode_USA&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class='restBody'&gt;
+&lt;form&gt;
+&lt;table style="border:1px solid #000000;"&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;&lt;b&gt;Reverse Geocode: &lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="location" value="-71.05682,42.35888" size="50" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Search Distance:&lt;/td&gt;
+&lt;td&gt;
+&lt;input type="text" name="distance" value="0" size="5" /&gt;
+&amp;nbsp;Meters
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spatial Reference &lt;/td&gt;
+&lt;td&gt;&lt;input type="text" name="outSR" size="50" value="" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Format: &lt;/td&gt;
+&lt;td&gt;
+&lt;select name="f"&gt;
+&lt;option value="html" selected='true'&gt;HTML&lt;/option&gt;
+&lt;option value="kmz"&gt;KMZ&lt;/option&gt;
+&lt;option value="pjson"&gt;JSON&lt;/option&gt;
+&lt;/select&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;
+&lt;input type="submit" value="Find" /&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: STATE ST&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: BOSTON&lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: MA&lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: 02109&lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -71.0568222799999&lt;br/&gt;
+Y: 42.3588800000001&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</msg>
+<msg timestamp="20180103 21:45:59.194" level="INFO">Post Request using : alias=my_geocoding_session, uri=?location=-71.05682%2C42.35888, data=&lt;empty&gt;, headers=None, files=None, allow_redirects=True </msg>
+<msg timestamp="20180103 21:45:59.194" level="INFO">c:\python27\lib\site-packages\urllib3\connectionpool.py:858: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)</msg>
+<msg timestamp="20180103 21:45:59.194" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:59.194" starttime="20180103 21:45:57.213"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20180103 21:45:59.194" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:59.194" starttime="20180103 21:45:59.194"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180103 21:45:59.194" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180103 21:45:59.194" starttime="20180103 21:45:59.194"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20180103 21:45:59.194" level="INFO">${json} = &lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' ty...</msg>
+<status status="PASS" endtime="20180103 21:45:59.194" starttime="20180103 21:45:59.194"></status>
+</kw>
+<kw name="Should Contain One Of These Substrings" library="LocationDataManager">
+<arguments>
+<arg>${json}</arg>
+<arg>${Locationdata[2]}</arg>
+</arguments>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>substrings</arg>
+<arg>${substrings}</arg>
+<arg>value</arg>
+<arg>${value}</arg>
+</arguments>
+<assign>
+<var>${ns}</var>
+</assign>
+<msg timestamp="20180103 21:45:59.209" level="INFO">${ns} = {u'substrings': ['BOSTON'], u'value': '&lt;html&gt;\r\n&lt;head&gt;\r\n&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;\r\n  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;\r\n  &lt;link href=\'/ArcGI...</msg>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:59.194"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>any(substring in value for substring in substrings)</arg>
+<arg>namespace=${ns}</arg>
+</arguments>
+<assign>
+<var>${contains}</var>
+</assign>
+<msg timestamp="20180103 21:45:59.209" level="INFO">${contains} = True</msg>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:59.209"></status>
+</kw>
+<kw name="Run Keyword Unless" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is false.</doc>
+<arguments>
+<arg>${contains}</arg>
+<arg>Fail</arg>
+<arg>'${value}' does not contain one of: ${substrings}</arg>
+</arguments>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:59.209"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:59.194"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:57.213"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:57.213"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:57.213"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:59.209" starttime="20180103 21:45:40.205"></status>
+</kw>
+<status status="FAIL" endtime="20180103 21:45:59.209" starttime="20180103 21:45:40.205"></status>
+</kw>
+<kw type="teardown" name="End Web Test" library="CommonWeb">
+<kw name="Close Browser" library="Selenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:59.209"></status>
+</kw>
+<status status="PASS" endtime="20180103 21:45:59.209" starttime="20180103 21:45:59.209"></status>
+</kw>
+<doc>This Test Case will test Location Input data and validate Reverse Geocoding serivice through API</doc>
+<status status="FAIL" endtime="20180103 21:45:59.209" critical="yes" starttime="20180103 21:45:40.190">Several failures occurred:
+
+1) '&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7" /&gt;
+  &lt;title&gt;Reverse Geocode (Locators/ESRI_Geocode_USA)&lt;/title&gt;
+  &lt;link href='/ArcGIS/rest/ESRI.ArcGIS.Rest.css' rel='stylesheet' type='text/css'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table width="100%" id="userTable"&gt;
+&lt;tr&gt;
+&lt;td id="titlecell"&gt;ArcGIS Services Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table id="navTable" width="100%"&gt;
+&lt;tbody&gt;
+&lt;tr valign="top"&gt;
+&lt;td id="breadcrumbs"&gt;
+&lt;a href="/ArcGIS/rest/services"&gt;Home&lt;/a&gt; &gt; &lt;a href="/ArcGIS/rest/services/L...
+    [ Message content over the limit has been removed. ]
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;b&gt;Reverse Geocoded Address:&lt;/b&gt;
+&lt;ul&gt;
+&lt;i&gt;Address&lt;/i&gt;: ADAMS ST&lt;br/&gt;
+&lt;i&gt;City&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;State&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Zip&lt;/i&gt;: &lt;br/&gt;
+&lt;i&gt;Loc_name&lt;/i&gt;: Street_Address&lt;br/&gt;
+&lt;/ul&gt;
+&lt;b&gt;Reverse Geocoded Location:&lt;/b&gt;
+&lt;ul&gt;
+X: -87.62433549&lt;br/&gt;
+Y: 41.8795349100001&lt;br/&gt;
+Spatial Reference: 4326&lt;br/&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+' does not contain one of: ['CHICAGO']</status>
+</test>
+<doc>ESRI's GeoCode API Testing</doc>
+<status status="FAIL" endtime="20180103 21:45:59.225" starttime="20180103 21:45:39.615"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="0">Critical Tests</stat>
+<stat fail="1" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" id="s1" name="GeoCodeTesting" pass="0">GeoCodeTesting</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
